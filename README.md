@@ -5,6 +5,8 @@ This buffer API uses a temporary iterator as a hack for accessing array contents
 
 You can turn **`ON`** compile time errors by defining or compiling with `__TEMPLATE_DEBUG__` (see below example).
 
+***NOTE:*** Using the array operators will use the same functionality as `T peek(int index)` and `poke(T value, int index)` by not moving the `seek` position when reading or writing.
+
 EXAMPLE
 ```C++
 //                                            BASIC DEMONSTRATION
@@ -13,21 +15,7 @@ EXAMPLE
 using namespace std;
 
 int main() {
-    fast_buffer buffer(24);
-    
-    // Demonstrates [retrieve] and [assignment] via operators.
-    for(int i = 0; i < 64; i ++)
-      cout << (int) (buffer[i] = (ubyte) i) << ", ";
-    
-    cout << endl << endl;
-    
-    // Denibstrates accessor functions.
-    buffer.seek(seek_mode::start, 0);
-    for(int i = 0; i < 64; i ++)
-      cout << buffer.write<ubyte>((ubyte) i) << ", ";
-    
-    cout << endl << endl;
-    
+    fast_buffer buffer(64);
     buffer.free();
     cin.get();
 }
@@ -93,7 +81,9 @@ class fast_buffer {
   T read();
   
   // Overloaded Operators
-  fastbuff_iterator& operator[](int index)
+  fastbuff_iterator& operator[](int index);
+  operator T();
+  T operator =(T value);
 }
 
 class fastbuff_iter {
