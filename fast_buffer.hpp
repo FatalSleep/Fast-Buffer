@@ -57,16 +57,21 @@
             this->size = size;
         }
 
+        ~fast_buffer() {
+            delete[] buffer;
+        }
+
+        static void operator delete(void* buff) noexcept {
+            fast_buffer* buffer = (fast_buffer*) buff;
+            ::operator delete(buff);
+        }
+
         int length() {
             return size;
         }
 
         int position() {
             return seekpos;
-        }
-
-        void free() {
-            delete[] buffer;
         }
 
         void clear() {
@@ -111,7 +116,7 @@
                 buff[i] = buffer[i];
 
             delete[] buffer;
-            buffer = buffer;
+            buffer = buff;
             cached_size = -1;
             this->size;
         }
