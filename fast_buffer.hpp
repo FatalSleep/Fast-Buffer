@@ -57,6 +57,14 @@
             this->size = size;
         }
 
+        int length() {
+            return size;
+        }
+
+        int position() {
+            return seekpos;
+        }
+
         void free() {
             delete[] buffer;
         }
