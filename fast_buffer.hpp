@@ -19,23 +19,23 @@
 
         template<typename T>
         operator T() {
+            #ifdef __TEMPLATE_DEBUG__
+                static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
+            #endif
+
             ubyte* pointer = this->pointer;
             int index = this->index;
-            delete this;
-            cout << "** delete on T() **" << endl;
             return *(pointer + index);
         }
 
         template<typename T>
         T operator =(T value) {
             #ifdef __TEMPLATE_DEBUG__
-            static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
+                static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
 
             ubyte* pointer = this->pointer;
             int index = this->index;
-            delete this;
-            cout << "** delete on = **" << endl;
             return *(pointer + index) = value;
         }
     };
@@ -132,7 +132,7 @@
         }
 
         template<typename T>
-        void read() {
+        T read() {
             #ifdef __TEMPLATE_DEBUG__
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
@@ -158,9 +158,25 @@
             return (T)buffer[pos];
         }
 
-        fastbuff_iterator& operator[](int index) {
-            return *new fastbuff_iterator(buffer, index);
+        fastbuff_iterator operator[](int index) {
+            return fastbuff_iterator(buffer, index);
         };
-    };
 
+        template<typename T>
+        operator T() {
+            #ifdef __TEMPLATE_DEBUG__
+                static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
+            #endif
+            return *(buffer + seekpos++);
+        }
+
+        template<typename T>
+        T operator =(T value) {
+            #ifdef __TEMPLATE_DEBUG__
+                static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
+            #endif
+
+            return *(buffer + seekpos++) = value;
+        }
+    };
 #endif
