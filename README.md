@@ -151,3 +151,4 @@ class fastbuff_iter {
   T operator =(T value);
 }
 ```
+If it's semi-confusing understanding the `delete` operator overload, that's because `delete` calls the destructor of the object it is deleting. In this case the destructor is called and both the object and buffer array are deleted.
