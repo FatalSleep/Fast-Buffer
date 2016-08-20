@@ -135,7 +135,7 @@ class fast_buffer {
   operator T();
   // Writes a byte to the buffer AND 
   T operator =(T value);
-  // Delets the fast_buffer and it's underlying buffer array when you dynamically allocate fast_buffer.
+  // Deletes the fast_buffer and it's underlying buffer array when you dynamically allocate fast_buffer.
   delete my_fast_buffer;
 }
 
