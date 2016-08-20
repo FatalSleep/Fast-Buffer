@@ -9,13 +9,40 @@ You can turn **`ON`** compile time errors by defining or compiling with `__TEMPL
 
 EXAMPLE
 ```C++
-//                                            BASIC DEMONSTRATION
+//                                      ARRAY OPERATOR DEMONSTRATION
 #include <iostream>
 #include "fast_buffer.h"
 using namespace std;
 
 int main() {
-    fast_buffer buffer(64);
+    fast_buffer buffer(24);
+    
+    for(int i = 0; i < buffer.length(); i ++)
+      cout << (int) (buffer[i] = (byte) i) << ", ";
+    
+    buffer.free();
+    cin.get();
+}
+```
+```C++
+//                                      CAST & ASSIGNMENT DEMONSTRATION
+#include <iostream>
+#include "fast_buffer.h"
+using namespace std;
+
+int main() {
+    fast_buffer buffer(24);
+
+    for (int i = 0; i < buffer.length(); i++) {
+        buffer = (ubyte) i;
+    }
+
+    buffer.seek(seek_mode::start, 0);
+
+    for (int i = 0; i < buffer.length(); i++) {
+        cout << (int) (ubyte) buffer << endl;
+    }
+
     buffer.free();
     cin.get();
 }
@@ -30,11 +57,9 @@ using namespace std;
 
 int main() {
     fast_buffer buffer(24);
-    
-    // Demonstrates [retrieve] and [assignment] via array operators.
-    for(int i = 0; i < 64; i ++)
-      cout << (int) (buffer[i] = (int) i) << ", ";
-    
+    buffer.write<ubyte>(45);
+    buffer.seek(seek_mode::start, 0);
+    cout << buffer.read<ubyte>() << endl;
     buffer.free();
     cin.get();
 }
