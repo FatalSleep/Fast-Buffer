@@ -31,11 +31,9 @@ using namespace std;
 int main() {
     fast_buffer buffer(24);
     
-    // Demonstrates [retrieve] and [assignment] via operators.
+    // Demonstrates [retrieve] and [assignment] via array operators.
     for(int i = 0; i < 64; i ++)
       cout << (int) (buffer[i] = (int) i) << ", ";
-    
-    cout << endl;
     
     buffer.free();
     cin.get();
