@@ -81,40 +81,73 @@ int main() {
 API
 ```C++
 class fast_buffer {
-  // Constructors
+  //                                      Constructors
+  // Constructs a buffer using a pre-existing array of bytes.
   fast_buffer(uint64 address, int size);
+  // Constructs a new buffer of the specified size.
   fast_buffer(int size);
   
-  // Clean Up
-  void free();
+  //                                      Destructor
+  // Cleans up the buffer's dynamic memory. **DO NOT CALL DESTRUCTORS**
+  ~fast_buffer();
+  
+  //                                      Clean Up
+  // Clears all elements in the buffer to zero.
   void clear();
+  // Clears the elements in the buffer from x1 to x2 to zero.
   void clear(int x1, int x2);
   
-  // Resizing
+  //                                      Resizing
+  // Exponentially resizes the buffer (size * size).
   void grow();
+  // Resizes the buffer to the indicated size.
+    // NOTE: This uses a `fast resize` where the actual size does not change when resizing downwards.
+    // This is `caching` the rest of the buffer for when you might need to resize upwards.
   void resize(int size);
   
-  // Random Access
-  void seek(enum seek_mode mode, int index);
-  void poke(T value, int index);
-  T peek(int index);
+  //                                      Random Access
+  // sets the seek position relative to the seek_mode.
+  /*
+    Seek Modes:
+        start : seek to the new position from the start of the buffer.
+        relative: seek to the new position from the current seek position.
+        end : seek to the new position from the current seek position.
+            NOTE: If you seek from the end you'll need to use negative positions to seek backwards.
+  */
+  void seek<T.(enum seek_mode mode, int index);
+  // Write a byte from the indicated position in the buffer WITHOUT advancing the seek position.
+  void poke<T>(T value, seek_mode mode, int index);
+  void poke<T>(T value, int index);
+  // Read a byte from the indicated position in the buffer WITHOUT advancing the seek position.
+  T peek<T>(seek_mode mode, int index);
+  T peek<T>(int index);
   
-  // Function Accessors
-  void write(T value);
-  T read();
+  //                                      Function Accessors
+  // Writes a byte to the buffer AND advances the seek position.
+  void write<T>(T value);
+  // Reads a byte from the buffer AND advances the seek position.
+  T read<T>();
   
-  // Overloaded Operators
+  //                                      Overloaded Operators
+  // Gets a fastbuff_iterator for the current buffer index and redirects reading/writing bytes to the fastbuff_iterator.
   fastbuff_iterator& operator[](int index);
+  // Reads a byte from the buffer via cast ooperator AND advances the seek position.
   operator T();
+  // Writes a byte to the buffer AND 
   T operator =(T value);
+  // Delets the fast_buffer and it's underlying buffer array when you dynamically allocate fast_buffer.
+  delete my_fast_buffer;
 }
 
 class fastbuff_iter {
-  // Constructor
+  //                                      Constructor
+  // Constructs a fastbuff_iterator pointing to an index in the buffer.
   fastbuff_iter(ubyte* pointer, int index);
   
-  // Overloaded Operators
+  //                                      Overloaded Operators
+  // Reads a byte from the buffer AND advances the seek position.
   operator T();
+  // Writes a byte to the buffer via array operator from `fast_buffer` AND advances the seek position.
   T operator =(T value);
 }
 ```
