@@ -64,7 +64,7 @@
 
         ~fast_buffer() {
             if (buffer != nullptr)
-                delete buffer;
+                delete[] buffer;
         }
 
         static void operator delete(void* buff) noexcept {
