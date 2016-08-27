@@ -42,23 +42,29 @@
 
     class fast_buffer {
     private:
-        ubyte* buffer;
+        ubyte* buffer = nullptr;
         int size = 0, seekpos = 0;
         int cached_size = -1;
 
     public:
-        fast_buffer(uint64 address, int size) {
-            buffer = reinterpret_cast<ubyte*>(address);
-            this->size = size;
-        }
-
         fast_buffer(int size) {
             buffer = new ubyte[size]();
             this->size = size;
         }
+        
+        fast_buffer(uint64 address, int size) {
+            buffer = reinterpret_cast<ubyte*>(address);
+             this->size = size;
+        }
+        
+        fast_buffer(void* pointer, int size) {
+            buffer = reinterpret_cast<ubyte*>(pointer);
+             this->size = size;
+        }
 
         ~fast_buffer() {
-            delete[] buffer;
+            if (buffer != nullptr)
+                delete buffer;
         }
 
         static void operator delete(void* buff) noexcept {
@@ -93,7 +99,7 @@
                 buff[i] = buffer[i];
 
             delete[] buffer;
-            buffer = buffer;
+            buffer = buff;
         }
 
         void resize(int size) {
