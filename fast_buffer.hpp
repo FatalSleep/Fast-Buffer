@@ -169,7 +169,7 @@
         }
 
         template<typename T>
-        void peek(int pos) {
+        T peek(int pos) {
             #ifdef __TEMPLATE_DEBUG__
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
