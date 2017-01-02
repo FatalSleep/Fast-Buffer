@@ -19,7 +19,7 @@
 
         template<typename T>
         operator T() {
-            #ifdef __TEMPLATE_DEBUG__
+            #ifdef _DEBUG
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
 
@@ -30,7 +30,7 @@
 
         template<typename T>
         T operator =(T value) {
-            #ifdef __TEMPLATE_DEBUG__
+            #ifdef _DEBUG
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
 
@@ -143,7 +143,7 @@
 
         template<typename T>
         void write(T value) {
-            #ifdef __TEMPLATE_DEBUG__
+            #ifdef _DEBUG
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
 
@@ -152,7 +152,7 @@
 
         template<typename T>
         T read() {
-            #ifdef __TEMPLATE_DEBUG__
+            #ifdef _DEBUG
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
 
@@ -161,7 +161,7 @@
 
         template<typename T>
         void poke(T value, int pos) {
-            #ifdef __TEMPLATE_DEBUG__
+            #ifdef _DEBUG
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
 
@@ -170,7 +170,7 @@
 
         template<typename T>
         T peek(int pos) {
-            #ifdef __TEMPLATE_DEBUG__
+            #ifdef _DEBUG
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
 
@@ -183,7 +183,7 @@
 
         template<typename T>
         operator T() {
-            #ifdef __TEMPLATE_DEBUG__
+            #ifdef _DEBUG
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
             return *(buffer + seekpos++);
@@ -191,7 +191,7 @@
 
         template<typename T>
         T operator =(T value) {
-            #ifdef __TEMPLATE_DEBUG__
+            #ifdef _DEBUG
                 static_assert(std::is_same<T, ubyte>::value || std::is_same<T, sbyte>::value, "ERROR: T must be of type *sbyte* or *ubyte*");
             #endif
 
